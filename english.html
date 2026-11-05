@@ -3,59 +3,76 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>English Lessons | World Languages</title>
+<title>English Dictionary | World Languages</title>
 <style>
-body {
-  background: #080d1b;
-  color: white;
-  font-family: Arial, sans-serif;
-  padding: 25px;
-}
-.container {
-  max-width: 700px;
-  margin: 40px auto;
-  background: #14213b;
-  padding: 25px;
-  border-radius: 15px;
-}
-h1 { color: #38a0ff; }
-h2 { color: #38a0ff; }
-p { line-height: 1.7; }
-a { color: #38a0ff; }
-button {
-  background: #1689ed;
-  color: white;
-  border: 0;
-  padding: 12px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-}
+*{box-sizing:border-box}
+body{margin:0;background:#080d1b;color:white;font-family:Arial,sans-serif;padding:20px}
+.container{max-width:800px;margin:35px auto;background:#14213b;padding:25px;border-radius:16px}
+h1{color:#38a0ff}
+input{width:100%;padding:16px;border-radius:9px;border:1px solid #38a0ff;background:#080d1b;color:white;font-size:17px;margin:15px 0}
+button{background:#1689ed;color:white;border:0;padding:13px 22px;border-radius:8px;cursor:pointer;font-weight:bold}
+.result{margin-top:25px;background:#203454;padding:20px;border-radius:12px;line-height:1.8}
+.word{font-size:28px;color:#70bdff;font-weight:bold}
+.small{color:#b9c8df}
+a{color:#38a0ff}
 </style>
 </head>
 <body>
 <div class="container">
-<a href="index.html">← Bosh sahifaga qaytish</a>
+<a href="index.html">← Bosh sahifa</a>
+<h1>🇬🇧 English Dictionary</h1>
+<p>Inglizcha so‘zni yozing va tarjimasini toping.</p>
 
-<h1>🇬🇧 English Lessons</h1>
-<p>Welcome to English lessons! Ingliz tilini biz bilan bepul o‘rganing.</p>
+<input id="search" placeholder="Masalan: beautiful, book, school..." onkeydown="if(event.key==='Enter') searchWord()">
+<button onclick="searchWord()">🔍 Qidirish</button>
 
-<h2>Lesson 1: Greetings</h2>
-<p>Hello — Salom</p>
-<p>Good morning — Xayrli tong</p>
-<p>Good evening — Xayrli kech</p>
-<p>Goodbye — Xayr</p>
-<p>Thank you — Rahmat</p>
-
-<h2>Lesson 2: Introductions</h2>
-<p>What is your name? — Ismingiz nima?</p>
-<p>My name is Ali. — Mening ismim Ali.</p>
-<p>How are you? — Qalaysiz?</p>
-<p>I am fine. — Men yaxshiman.</p>
-
-<h2>Mini Test</h2>
-<p>1. "Hello" so‘zining tarjimasi nima?</p>
-<button onclick="alert('To‘g‘ri! Hello — Salom')">Salom</button>
-<button onclick="alert('Qayta urinib ko‘ring!')">Rahmat</button>
+<div class="result" id="result">
+So‘zni qidirish uchun yuqoridagi oynaga yozing.
 </div>
+</div>
+
+<script>
+async function searchWord(){
+const word=document.getElementById('search').value.trim();
+const result=document.getElementById('result');
+
+if(!word){
+result.textContent='Iltimos, so‘z kiriting.';
+return;
+}
+
+result.textContent='Qidirilmoqda...';
+
+try{
+const translationURL='https://api.mymemory.translated.net/get?q='+encodeURIComponent(word)+'&langpair=en|uz';
+const dictionaryURL='https://api.dictionaryapi.dev/api/v2/entries/en/'+encodeURIComponent(word);
+
+const responses=await Promise.all([
+fetch(translationURL),
+fetch(dictionaryURL).catch(()=>null)
+]);
+
+const translationData=await responses[0].json();
+let translation=translationData.responseData?.translatedText || 'Tarjima topilmadi.';
+let pronunciation='Topilmadi';
+let definition='Topilmadi';
+
+if(responses[1] && responses[1].ok){
+const data=await responses[1].json();
+pronunciation=data[0].phonetic || data[0].phonetics?.find(p=>p.text)?.text || 'Topilmadi';
+definition=data[0].meanings?.[0]?.definitions?.[0]?.definition || 'Topilmadi';
+}
+
+result.innerHTML=
+'<div class="word">'+word.replace(/</g,'&lt;')+'</div>'+
+'<p><b>🇺🇿 Tarjimasi:</b> '+translation+'</p>'+
+'<p><b>🔊 O‘qilishi:</b> '+pronunciation+'</p>'+
+'<p><b>📖 Inglizcha ma’nosi:</b> '+definition+'</p>';
+
+}catch(error){
+result.textContent='Xatolik yuz berdi. Internetni tekshirib, qayta urinib ko‘ring.';
+}
+}
+</script>
 </body>
 </html>
