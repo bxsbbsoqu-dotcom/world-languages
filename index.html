@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Languages | Learn Languages</title>
+<meta name="description" content="Learn English, Korean, Russian and more languages for free.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#080d1b;color:white;font-family:Arial,sans-serif}
+header{padding:22px 7%;display:flex;justify-content:space-between;align-items:center;background:#101a30;flex-wrap:wrap;gap:15px}
+.logo{font-size:24px;font-weight:bold;color:#38a0ff}
+nav a{color:white;text-decoration:none;margin:10px}
+select{background:#14213b;color:white;padding:10px;border:1px solid #38a0ff;border-radius:8px}
+.hero{text-align:center;padding:90px 20px;background:linear-gradient(135deg,#101a30,#142b50)}
+.hero h1{font-size:48px;color:#38a0ff}
+.hero p{margin:20px;color:#c2cee0;font-size:18px}
+button{background:#1689ed;color:white;border:0;padding:12px 24px;border-radius:8px;cursor:pointer;font-weight:bold}
+.languages{padding:55px 7%}
+.languages h2{text-align:center;margin-bottom:30px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:20px}
+.card{background:#14213b;padding:30px 15px;text-align:center;border:1px solid #263b60;border-radius:15px;transition:.3s}
+.card:hover{transform:translateY(-6px);border-color:#38a0ff}
+.flag{font-size:45px}
+.card h3{margin:15px}
+footer{text-align:center;padding:30px;color:#8998b0}
+@media(max-width:600px){.hero h1{font-size:34px}header{justify-content:center}nav{text-align:center}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">🌍 World Languages</div>
+<nav>
+<a href="#">Home</a>
+<a href="#languages">Languages</a>
+</nav>
+<select id="language" onchange="changeLanguage()">
+<option value="uz">🇺🇿 O‘zbekcha</option>
+<option value="en">🇬🇧 English</option>
+</select>
+</header>
+
+<section class="hero">
+<h1 id="title">World Languages</h1>
+<p id="subtitle">Dunyo tillarini biz bilan bepul o‘rganing!</p>
+<button id="start" onclick="document.getElementById('languages').scrollIntoView({behavior:'smooth'})">Boshlash</button>
+</section>
+
+<section class="languages" id="languages">
+<h2 id="choose">🌎 O‘rganmoqchi bo‘lgan tilingizni tanlang</h2>
+<div class="cards">
+<div class="card"><div class="flag">🇬🇧</div><h3>English</h3><button onclick="alert('English lessons coming soon!')">Learn</button></div>
+<div class="card"><div class="flag">🇰🇷</div><h3>Korean</h3><button onclick="alert('Korean lessons coming soon!')">Learn</button></div>
+<div class="card"><div class="flag">🇷🇺</div><h3>Russian</h3><button onclick="alert('Russian lessons coming soon!')">Learn</button></div>
+<div class="card"><div class="flag">🇯🇵</div><h3>Japanese</h3><button onclick="alert('Japanese lessons coming soon!')">Learn</button></div>
+<div class="card"><div class="flag">🇩🇪</div><h3>German</h3><button onclick="alert('German lessons coming soon!')">Learn</button></div>
+<div class="card"><div class="flag">🇫🇷</div><h3>French</h3><button onclick="alert('French lessons coming soon!')">Learn</button></div>
+<div class="card"><div class="flag">🇨🇳</div><h3>Chinese</h3><button onclick="alert('Chinese lessons coming soon!')">Learn</button></div>
+<div class="card"><div class="flag">🇪🇸</div><h3>Spanish</h3><button onclick="alert('Spanish lessons coming soon!')">Learn</button></div>
+</div>
+</section>
+<footer>© 2026 World Languages. All rights reserved.</footer>
+
+<script>
+function changeLanguage(){
+let en=document.getElementById('language').value==='en';
+document.getElementById('subtitle').textContent=en?'Learn world languages with us for free!':'Dunyo tillarini biz bilan bepul o‘rganing!';
+document.getElementById('start').textContent=en?'Get Started':'Boshlash';
+document.getElementById('choose').textContent=en?'🌎 Choose a language to learn':'🌎 O‘rganmoqchi bo‘lgan tilingizni tanlang';
+document.querySelector('nav a').textContent=en?'Home':'Bosh sahifa';
+document.querySelectorAll('.card button').forEach(b=>b.textContent=en?'Learn':'O‘rganish');
+}
+</script>
+</body>
+</html>
